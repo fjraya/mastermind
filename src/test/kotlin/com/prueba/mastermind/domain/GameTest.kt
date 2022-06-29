@@ -1,13 +1,11 @@
 package com.prueba.mastermind.domain
 
+import com.prueba.mastermind.GameMother
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import java.util.*
 import java.util.stream.Stream
 
@@ -26,6 +24,28 @@ class GameTest {
         Assertions.assertEquals(blackPegs, guess.blackPegs)
         Assertions.assertEquals(whitePegs, guess.whitePegs)
     }
+
+
+    @Test
+    fun whenCalledToAddGuestWith10GuessesRefuseAdd() {
+        val game = GameMother.getTestActiveInstance(4, false)
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        game.addGuess(game.calculatePegs("ABWO"))
+        val expected = 10
+        Assertions.assertEquals(expected, game.countGuesses())
+    }
+
 
     companion object {
         @JvmStatic

@@ -69,6 +69,19 @@ class GameRepositoryIntegrationTest {
     }
 
 
+    @Test
+    fun whenCallToFindByActiveCorrectGuessesRetrieved() {
+        val game = GameMother.getTestActiveInstance(4, false)
+        game.addGuess(game.calculatePegs("AWAW"))
+        game.addGuess(game.calculatePegs("AWAB"))
+        game.addGuess(game.calculatePegs("ABBA"))
+
+        gameRepository.save(game)
+        val retrievedGame = gameRepository.findByActive(true)
+        Assertions.assertEquals(3, retrievedGame.get().countGuesses())
+    }
+
+
     private fun exerciseSaveAndFind(): Pair<Game, Optional<Game>> {
         val guard = gameRepository.count()
         Assertions.assertEquals(0, guard, "table games must be empty")

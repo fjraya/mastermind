@@ -8,7 +8,6 @@ import javax.persistence.*
 @Table(name = "games")
 class Game(
     @Id val id: String, size: Int, duplication: Boolean, @Embedded val secret: Combination = Combination.newCombination(size, duplication), private val active: Boolean = true,
-    @CollectionTable(name = "game_guesses", joinColumns = [JoinColumn(name = "game_id")])
     @ElementCollection(fetch = FetchType.EAGER)
     val guesses: MutableSet<Guess> = mutableSetOf(), val createdAt: LocalDate = LocalDate.now()
 ) {
@@ -44,5 +43,7 @@ class Game(
 
         return Guess(combination, blackPegs, (combination.length - secretArray.size) - blackPegs)
     }
+
+    fun countGuesses() = this.guesses.size
 
 }
