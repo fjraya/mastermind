@@ -17,5 +17,17 @@ class GameService(private val gameRepository: GameRepository) {
         gameRepository.endGame()
     }
 
+
+    fun guess(combination: String) {
+        val game = getActiveGame()
+        if (!game.isPresent) throw ActiveGameException("There isn't an active game.")
+        val innerGame = game.get()
+        val guess = innerGame.calculatePegs(combination)
+        innerGame.addGuess(guess)
+        gameRepository.save(innerGame)
+        if (!innerGame.canAddGuess()) gameRepository.endGame()
+    }
+
+
     fun getActiveGame() = gameRepository.findByActive(true)
 }

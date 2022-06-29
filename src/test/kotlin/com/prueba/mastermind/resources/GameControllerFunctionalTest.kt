@@ -45,16 +45,6 @@ class GameControllerFunctionalTest {
     }
 
 
-    @Test
-    fun whenCalledWithActiveGamesThrowException() {
-        val input = GameDTO(4, false)
-        val response = exerciseCreate(input)
-
-        exerciseCreate(input)
-        Assertions.assertEquals(HttpStatus.CREATED, response.statusCode)
-    }
-
-
 
     private fun exerciseCreate(input: GameDTO): ResponseEntity<Unit> {
         val httpEntity = HttpEntity<GameDTO>(input)
