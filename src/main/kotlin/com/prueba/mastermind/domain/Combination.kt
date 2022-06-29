@@ -1,6 +1,9 @@
 package com.prueba.mastermind.domain
 
-class Combination (private val secret: String) {
+import javax.persistence.Embeddable
+
+@Embeddable
+class Combination (val secret: String) {
 
     fun secretLength() = secret.length
 

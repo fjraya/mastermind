@@ -1,12 +1,15 @@
 package com.prueba.mastermind.application
 
-import com.prueba.mastermind.domain.Combination
+import com.prueba.mastermind.domain.Game
+import com.prueba.mastermind.infrastructure.GameRepository
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
-class GameService {
-    fun newGame(size: Int, duplicates: Boolean) {
-        val combination = Combination.newCombination(size, duplicates)
+class GameService(private val gameRepository: GameRepository) {
+    fun newGame(size: Int, duplication: Boolean) {
+
+        
 
     }
 }
