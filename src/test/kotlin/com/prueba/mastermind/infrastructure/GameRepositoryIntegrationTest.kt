@@ -41,7 +41,6 @@ class GameRepositoryIntegrationTest {
     }
 
 
-
     @Test
     fun whenCalledSaveCorrectSecretInsertion() {
         val (firstGame, game) = exerciseSaveAndFind()
@@ -50,12 +49,23 @@ class GameRepositoryIntegrationTest {
 
 
     @Test
-    fun whenCallToFindByActiveWithActiveGamesReturnCorrectResult() {
+    fun whenCallToFindByActiveWithActiveGameReturnCorrectResult() {
         gameRepository.save(GameMother.getTestNoActiveInstance(4, false))
         gameRepository.save(GameMother.getTestActiveInstance(5, false))
         gameRepository.save(GameMother.getTestNoActiveInstance(4, false))
         val game = gameRepository.findByActive(true)
         Assertions.assertEquals(5, game.get().getSecret().chars().count())
+    }
+
+
+    @Test
+    fun whenCallToEndGameWithActiveGameThenUnactiveIt() {
+        setupInitialData()
+        val game = gameRepository.findByActive(true)
+        Assertions.assertEquals(true, game.isPresent)
+        gameRepository.endGame()
+        val activeGame = gameRepository.findByActive(true)
+        Assertions.assertEquals(false, activeGame.isPresent)
     }
 
 
@@ -66,7 +76,6 @@ class GameRepositoryIntegrationTest {
         val game = gameRepository.findById(firstGame.id)
         return Pair(firstGame, game)
     }
-
 
 
 }

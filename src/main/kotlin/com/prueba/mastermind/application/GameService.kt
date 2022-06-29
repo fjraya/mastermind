@@ -12,4 +12,10 @@ class GameService(private val gameRepository: GameRepository) {
         if (game.isPresent) throw ActiveGameException("There is an active game")
         gameRepository.save(Game(UUID.randomUUID().toString(), size, duplication))
     }
+
+    fun endGame() {
+        gameRepository.endGame()
+    }
+
+    fun getActiveGame() = gameRepository.findByActive(true)
 }

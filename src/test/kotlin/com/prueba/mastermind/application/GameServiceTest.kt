@@ -41,4 +41,12 @@ class GameServiceTest {
         sut.newGame(size, duplication)
         verify(gameRepositoryStub, times(1)).save(any())
     }
+
+    @Test
+    fun whenCalledToEndGameCorrectCallToInnerRepository() {
+        val gameRepositoryMock = mock<GameRepository> {}
+        val sut = GameService(gameRepositoryMock)
+        sut.endGame()
+        verify(gameRepositoryMock, times(1)).endGame()
+    }
 }

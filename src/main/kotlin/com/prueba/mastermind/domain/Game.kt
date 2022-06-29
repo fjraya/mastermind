@@ -17,4 +17,5 @@ class Game(@Id val id: String, size: Int, duplication: Boolean, private val acti
     fun isActive() = active
 
     fun getSecret() = secret.secret
+
 }
