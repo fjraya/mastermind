@@ -8,8 +8,8 @@ import java.util.*
 @Service
 class GameService(private val gameRepository: GameRepository) {
     fun newGame(size: Int, duplication: Boolean) {
-
-        
-
+        val game = gameRepository.findByActive(true)
+        if (game.isPresent) throw ActiveGameException("There is an active game")
+        gameRepository.save(Game(UUID.randomUUID().toString(), size, duplication))
     }
 }
