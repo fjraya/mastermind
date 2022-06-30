@@ -1,6 +1,7 @@
 package com.prueba.mastermind.application
 
 import com.prueba.mastermind.domain.Game
+import com.prueba.mastermind.domain.Guess
 import com.prueba.mastermind.infrastructure.GameRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -18,14 +19,14 @@ class GameService(private val gameRepository: GameRepository) {
     }
 
 
-    fun guess(combination: String) {
+    fun guess(combination: String): Guess {
         val game = getActiveGame()
         if (!game.isPresent) throw ActiveGameException("There isn't an active game.")
         val innerGame = game.get()
-        val guess = innerGame.calculatePegs(combination)
-        innerGame.addGuess(guess)
+        val guess = innerGame.addGuess(combination)
         gameRepository.save(innerGame)
-        if (!innerGame.canAddGuess()) gameRepository.endGame()
+        if (!innerGame.canAddGuess() || guess.solved()) gameRepository.endGame()
+        return guess
     }
 
 

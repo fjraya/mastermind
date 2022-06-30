@@ -50,11 +50,11 @@ class GameRepositoryIntegrationTest {
 
     @Test
     fun whenCallToFindByActiveWithActiveGameReturnCorrectResult() {
-        gameRepository.save(GameMother.getTestNoActiveInstance(4, false))
-        gameRepository.save(GameMother.getTestActiveInstance(5, false))
-        gameRepository.save(GameMother.getTestNoActiveInstance(4, false))
+        gameRepository.save(GameMother.getTestNoActiveInstance(5, false))
+        gameRepository.save(GameMother.getTestActiveInstance(4, true))
+        gameRepository.save(GameMother.getTestNoActiveInstance(5, false))
         val game = gameRepository.findByActive(true)
-        Assertions.assertEquals(5, game.get().getSecret().chars().count())
+        Assertions.assertEquals(4, game.get().getSecret().chars().count())
     }
 
 
@@ -72,9 +72,9 @@ class GameRepositoryIntegrationTest {
     @Test
     fun whenCallToFindByActiveCorrectGuessesRetrieved() {
         val game = GameMother.getTestActiveInstance(4, false)
-        game.addGuess(game.calculatePegs("AWAW"))
-        game.addGuess(game.calculatePegs("AWAB"))
-        game.addGuess(game.calculatePegs("ABBA"))
+        game.addGuess("AWAW")
+        game.addGuess("AWAB")
+        game.addGuess("ABBA")
 
         gameRepository.save(game)
         val retrievedGame = gameRepository.findByActive(true)

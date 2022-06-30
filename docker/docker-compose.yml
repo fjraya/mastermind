@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  backend:
+    image: "mastermind:latest"
+    environment:
+      - DRIVER_CLASS_NAME=org.postgresql.Driver
+      - DB_URL=jdbc:postgresql://postgres.service/mastermind
+      - DATABASE_DIALECT=org.hibernate.dialect.PostgreSQL95Dialect
+      - DB_USER=test
+      - DB_PASSWORD=test
+    restart: always
+    container_name: backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    networks:
+      default:
+        aliases:
+          - backend.service
+  database:
+    container_name: postgres-mastermind
+    image: postgres:11-buster
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=mastermind
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    networks:
+      default:
+        aliases:
+          - postgres.service

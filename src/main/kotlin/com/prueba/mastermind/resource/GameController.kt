@@ -20,5 +20,17 @@ class GameController(private val gameService: GameService) {
         return ResponseEntity.status(HttpStatus.OK).build()
     }
 
+    @GetMapping("/game/status")
+    fun getGameStatus(): ResponseEntity<GameStatusDTO> {
+        val game = gameService.getActiveGame().orElseThrow { GameNotFoundException() }
+        return ResponseEntity.ok(GameStatusDTO.fromDomain(game))
+    }
+
+    @PostMapping("/game/guess")
+    fun guess(@RequestBody input: GuessInputDTO): ResponseEntity<GuessDTO> {
+        val guess = gameService.guess(input.combination!!)
+        return ResponseEntity.ok(GuessDTO.fromDomain(guess))
+    }
+
 
 }

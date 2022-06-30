@@ -16,7 +16,7 @@ class Combination (val secret: String) {
         const val MAX_SIZE= 6
         fun newCombination(size: Int, duplicates: Boolean): Combination {
             if ((size < MIN_SIZE) || (size > MAX_SIZE)) throw InvalidCombinationException("Invalid size: $size")
-            val colors = arrayOf("R", "G", "B", "b", "Y", "W")
+            val colors = arrayOf("R", "G", "B", "O", "Y", "W")
             colors.shuffle()
             if (!duplicates) return Combination(colors.copyOfRange(0, size).joinToString(""))
             //Case of duplicates

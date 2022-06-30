@@ -1,6 +1,7 @@
 package com.prueba.mastermind.domain
 
 import com.prueba.mastermind.GameMother
+import com.prueba.mastermind.application.ActiveGameException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -29,21 +30,19 @@ class GameTest {
     @Test
     fun whenCalledToAddGuestWith10GuessesRefuseAdd() {
         val game = GameMother.getTestActiveInstance(4, false)
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        game.addGuess(game.calculatePegs("ABWO"))
-        val expected = 10
-        Assertions.assertEquals(expected, game.countGuesses())
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        game.addGuess("ABWO")
+        Assertions.assertThrows(MaxAttemptsException::class.java) {
+            game.addGuess("ABWO")
+        }
     }
 
 

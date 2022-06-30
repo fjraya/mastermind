@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.prueba"
-version = "0.0.1-SNAPSHOT"
+version = "1.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -21,6 +21,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.postgresql:postgresql:42.2.5")
 	implementation("org.liquibase:liquibase-core")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -35,6 +36,20 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
+
+
+
+
+tasks.bootRun {
+	environment("DRIVER_CLASS_NAME", "org.h2.Driver")
+	environment("DB_URL", "jdbc:h2:mem:db;MODE=MYSQL;DB_CLOSE_DELAY=-1;")
+	environment("DATABASE_DIALECT", "org.hibernate.dialect.H2Dialect")
+	environment("DB_USER", "test")
+	environment("DB_PASSWORD", "test")
+}
+
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+extra["log4j2.version"] = "2.17.0"

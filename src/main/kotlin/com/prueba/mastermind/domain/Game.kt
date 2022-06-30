@@ -1,7 +1,7 @@
 package com.prueba.mastermind.domain
 
 import java.time.LocalDate
-import java.util.*
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -9,7 +9,7 @@ import javax.persistence.*
 class Game(
     @Id val id: String, size: Int, duplication: Boolean, @Embedded val secret: Combination = Combination.newCombination(size, duplication), private val active: Boolean = true,
     @ElementCollection(fetch = FetchType.EAGER)
-    val guesses: MutableSet<Guess> = mutableSetOf(), val createdAt: LocalDate = LocalDate.now()
+    val guesses: MutableSet<Guess> = mutableSetOf(), val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
 
     companion object {
@@ -22,8 +22,15 @@ class Game(
 
     fun canAddGuess() = this.guesses.size < MAX_ATTEMPTS
 
-    fun addGuess(guess: Guess) {
-        if (canAddGuess()) this.guesses.add(guess)
+    fun isSolved() = this.guesses.filter { it.solved() }.size == 1
+
+    fun addGuess(combination: String): Guess {
+        if (canAddGuess()) {
+            val guess = calculatePegs(combination)
+            this.guesses.add(guess)
+            return guess
+        }
+        throw MaxAttemptsException("Cannot add more than $MAX_ATTEMPTS guesses")
     }
 
     fun calculatePegs(combination: String): Guess {
