@@ -25,7 +25,7 @@ class GameService(private val gameRepository: GameRepository) {
         val innerGame = game.get()
         val guess = innerGame.addGuess(combination)
         gameRepository.save(innerGame)
-        if (!innerGame.canAddGuess() || guess.solved()) gameRepository.endGame()
+        if (!innerGame.canAddGuess() || innerGame.isSolved()) gameRepository.endGame()
         return guess
     }
 

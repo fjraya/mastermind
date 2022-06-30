@@ -22,7 +22,7 @@ class Game(
 
     fun canAddGuess() = this.guesses.size < MAX_ATTEMPTS
 
-    fun isSolved() = this.guesses.filter { it.solved() }.size == 1
+    fun isSolved() = this.guesses.filter { it.solved(this.getSecret().length) }.size == 1
 
     fun addGuess(combination: String): Guess {
         if (canAddGuess()) {
